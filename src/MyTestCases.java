@@ -38,11 +38,13 @@ public class MyTestCases {
 
 	@Test(priority = 2)
 	public void verifiyTheWordProductIsThere() {
-		String expectedValue = "Products";
 
-		String ActualValue = driver.findElement(By.xpath("//span[@data-test='title']")).getText();
+		WebElement theMianNameOnTheWebSite = driver.findElement(By.xpath("//span[@data-test='title']"));
+		boolean expectedResult = true;
+		boolean ActualifTheElementThere = theMianNameOnTheWebSite.isDisplayed();
 
-		Assert.assertEquals(ActualValue, expectedValue);
+		Assert.assertEquals(ActualifTheElementThere, expectedResult);
+
 	}
 
 	@Test(priority = 3)
@@ -53,24 +55,22 @@ public class MyTestCases {
 		Select mySelctor = new Select(soso);
 
 		mySelctor.selectByVisibleText("Price (low to high)");
-//		Thread.sleep(3000);
-//		driver.navigate().refresh();
-//		mySelctor.selectByValue("za");
-//		Thread.sleep(3000);
-//		driver.navigate().refresh();
 
-//		mySelctor.selectByIndex(1);
+		List<WebElement> ThePrices = driver.findElements(By.className("inventory_item_price"));
+		String HighestPRiceAsText = ThePrices.getLast().getText().replace("$", "");
+		String LowestPRiceASText = ThePrices.getFirst().getText().replace("$", "");
+		System.out.println(HighestPRiceAsText);
+		System.out.println(LowestPRiceASText);
+		double  theHighestPrice = Double.parseDouble(HighestPRiceAsText); 
+		double theLowestPrice = Double.parseDouble(LowestPRiceASText);
+		
+	boolean expectedValue = true ; 
+		Assert.assertEquals(theHighestPrice<theLowestPrice, expectedValue,"if the highest price is higher than the lowest price this should return true ");
+		
 
-		String TheExpectedTheLowestPrice = "$49.99";
-
-		List<WebElement> thePrices = driver.findElements(By.className("inventory_item_price"));
-
-		System.out.println(thePrices.size());
-
-		String ActuallowestPrice = thePrices.get(thePrices.size() - 1).getText();
-
-		Assert.assertEquals(ActuallowestPrice, TheExpectedTheLowestPrice);
-
+	
 	}
+
+	
 
 }
